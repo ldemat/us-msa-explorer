@@ -80,12 +80,14 @@ client/
     App.tsx
     index.css
     data/msa_dataset.json
-server/
-shared/
-script/
 .github/workflows/deploy-pages.yml
 vite.config.ts
 package.json
 ```
 
-The current app is effectively static. The Express server files remain from the build template, but the GitHub Pages deployment uses only the static `dist/public` output.
+The app is a fully static single-page application. It bundles its dataset at build time and ships no server, database, or API surface — all data is loaded directly into the browser from `client/src/data/`. No environment variables or secrets are required.
+
+## Security notes
+
+- All source and data shipped here is public, derived from the U.S. Census Bureau (public-domain U.S. government work). Do not add private data to `client/src/data/` — anything in this repo or in the built bundle is world-readable.
+- Do not commit `.env` files or API keys to this repository. There are no server-side secrets in use; if you fork this and add an API, keep credentials out of the client bundle and use GitHub Actions secrets for build-time tokens.
